@@ -16,7 +16,7 @@ var config = require('./config/config.json');
 util.inherits(Driver,stream);
 util.inherits(Device,stream);
 
-var log = log4js.getLogger('Mappu - Driver');
+var log = log4js.getLogger('OccupyOffice - Driver');
 
 function Driver(opts,app) {
   var self = this;
