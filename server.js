@@ -1,8 +1,5 @@
 // The web server that hosts the frontend
 
-var USER_PORT = 21294;
-var ADMIN_PORT = 21295;
-
 
 
 var log = require('log4js').getLogger('mappu');
@@ -16,6 +13,10 @@ var request = require('request');
 var MeetingStore = require('./lib/MeetingStore');
 
 var config = require('./config/config.json');
+
+
+var USER_PORT = config.userPort || 21294;
+var ADMIN_PORT = config.adminPort || 21295;
 
 console.log('Starting with config', config);
 
