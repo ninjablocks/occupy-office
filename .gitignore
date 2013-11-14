@@ -1,0 +1,4 @@
+node_modules
+gen
+meetings.sqlite3
+config

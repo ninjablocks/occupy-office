@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Occupy Office</title>
+        <meta name="description" content="">
+        <meta name="viewport" id="vp" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+        <meta name="viewport" id="vp" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)" />
+
+        <!-- App -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+        <link rel="apple-touch-icon" href="img/icons/icon@2x.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="img/icons/icon-72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="img/icons/icon.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="img/icons/icon-72.png" />
+
+        <!-- iPhone 3GS, 2011 iPod Touch -->
+        <link rel="apple-touch-startup-image" href="img/splash/splash-iphone.png" media="screen and (max-device-width : 320px)">
+
+        <!-- iPhone 4, 4S and 2011 iPod Touch -->
+        <link rel="apple-touch-startup-image" href="img/splash/splash-iphone@2x.png" media="(max-device-width : 480px) and (-webkit-min-device-pixel-ratio : 2)">
+
+        <!-- iPhone 5 and 2012 iPod Touch -->
+        <link rel="apple-touch-startup-image" href="img/splash/splash-iphone@2x5.png" media="(max-device-width : 548px) and (-webkit-min-device-pixel-ratio : 2)">
+
+        <!-- iPad landscape -->
+        <link rel="apple-touch-startup-image" sizes="1024x748" href="img/splash/splash-iPad-landscape.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)">
+
+        <!-- iPad Portrait -->
+        <link rel="apple-touch-startup-image" sizes="768x1004" href="img/splash/splash-iPad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)">
+
+        <link rel="stylesheet" href="lib/bootstrap.css">
+        <style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+        <link rel="stylesheet" href="lib/bootstrap-responsive.css">
+        <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
+         <!--[if lte IE 8]>
+             <link rel="stylesheet" href="lib/leaflet/leaflet.ie.css" />
+         <![endif]-->
+        <link rel="stylesheet" href="lib/leaflet-draw-0.2.1-dev.css" />
+
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/themes/redmond/jquery-ui.css" type="text/css" />
+        <link rel="stylesheet" href="lib/daterangepicker/css/ui.daterangepicker.css">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <script src="lib/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="lib/jquery-1.10.1.min.js"><\/script>')</script>
+        <script src="lib/jquery-ui.min.js"></script>
+        <script src="lib/jquery.sticky.js"></script>
+        <script src="lib/bootstrap.js"></script>
+
+        <script src="lib/leaflet/leaflet.js"></script>
+        <script src="lib/leaflet-draw-0.2.1-dev.min.js"></script>
+        <!--<script src="lib/raphael-2.1.0-min.js"></script>
+        <script src="lib/rafael-layer-0.1.3.min.js"></script>-->
+        <script src="lib/leaflet-ajax.js"></script>
+        <script src="lib/leaflet-pip.js"></script>
+        <script src="lib/underscore-1.5.1.js"></script>
+        <script src="lib/moment.min.js"></script>
+        <script src="lib/daterangepicker/js/date.js"></script>
+        <script src="lib/daterangepicker/js/daterangepicker.jQuery.js"></script>
+
+        <link rel="stylesheet" href="lib/slider.css">
+        <script src="lib/bootstrap-slider.js"></script>
+
+        <script src="lib/jquery.sparkline-2.1.2.js"></script>
+
+        <script src="http://js.pusher.com/2.1/pusher.min.js"></script>
+
+        <script>N = {};</script>
+
+        <script src="src/utils.js"></script>
+        <script src="src/N.LevelLayer.js"></script>
+        <script src="src/DeviceStore.js"></script>
+        <script src="src/stats.js"></script>
+        <script src="src/main.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner current-floor">
+            </div>
+        </div>
+
+        <div class="logo-wrapper">
+            <img class="logo" src="img/logo.svg"/>
+        </div>
+
+        <div class="sidebar stats">
+
+            <section class="plans">
+                <h4>Floorplans</h4>
+                <div class="floorplans"></div>
+            </section>
+
+            <section class="rooms">
+                <h4>Rooms</h4>
+                <ul>
+                </ul>
+                <a href="" class="btn btn-mini">Room Stats</a>
+            </section>
+
+            <section class="occupancy">
+                <h4>Occupancy</h4>
+                <div class="percentage">
+                    <span class="value"></span> %
+                </div>
+                <div class="total"></div>
+            </section>
+
+            <section class="meeting-length">
+                <h4>Meeting Length</h4>
+                <div class="histogram"></div>
+                <ul class="intervals">
+                    <li>30</li>
+                    <li>60</li>
+                    <li>90</li>
+                    <li>120</li>
+                    <li>150</li>
+                </ul>
+            </section>
+
+
+            <section class="row-fluid">
+                <!-- <a class="btn btn-mini clearfilter">Reset Filter</a> -->
+                <h4>Date Range</h4>
+                <input type="text" value="" id="daterange" />
+
+                <h4>Time of Day</h4>
+                <div class="timeofday">
+                    <span class="from"></span>
+                    <span class="dash">&mdash;</span>
+                    <span class="to"></span>
+                </div>
+                <input type="text" class="span8 slider hide" value="[8,18]" data-slider-min="0" data-slider-max="24" data-slider-value="[8,18]" data-slider-orientation="horizontal" />
+
+
+                <h4>Day of Week</h4>
+                <div class="days btn-toolbar" style="span8">
+                    <div class="btn-group">
+                    </div>
+                </div>
+            </section>
+
+            <a class="credits" href="http://www.ninjablocks.com"><img src="img/powered-by-ninjablocks.png" alt=""></a>
+
+        </div>
+        <section id="main-map" class="content navbar-height-dependent"></section>
+
+        <section id="room-table" class="hidden">
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <td rowspan="2" class="single">Room</td>
+                        <td rowspan="2" class="single">Occupancy</td>
+                        <td colspan="5">Meeting Length</td>
+                    </tr>
+                    <tr>
+                        <td>30</td>
+                        <td>60</td>
+                        <td>90</td>
+                        <td>120</td>
+                        <td>150+</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td>Summary</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <button>Print</button>
+        </section>
+
+        <div class="hide">
+            <div class="statsTemplate">
+                <h3></h3>
+                <section>
+                    <h4>Occupancy</h4>
+                    <div class="percentage">
+                        <span class="value"></span> %
+                    </div>
+                </section>
+
+                <section class="meeting-length">
+                    <h4>Meeting Length</h4>
+                    <div class="histogram"></div>
+                    <ul class="intervals">
+                        <li>30</li>
+                        <li>60</li>
+                        <li>90</li>
+                        <li>120</li>
+                        <li>150</li>
+                    </ul>
+                </section>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+
+        <!--<script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src='//www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>-->
+    </body>
+</html>

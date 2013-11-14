@@ -1,0 +1,20 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Elliot Shepherd -- Developer -- elliot@ninjablocks.com
+    Jeremy Manoto -- Developer/Designer -- jeremy@ninjablocks.com
+    Theo Julienne -- Developer -- theo@ninjablocks.com
+
+# THANKS
+
+    WikiMedia
+    Vital Environments
+    Texas Instruments
+    Netvox
+
+# TECHNOLOGY COLOPHON
+
+    Node.JS, HTML5, CSS3, ZigBee, NinjaBlocks
+    jQuery, Modernizr, Leaflet.JS
