@@ -256,6 +256,12 @@ $(function() {
         $.get('/permissions', function(data) {
             if ( data.admin ) {
               map.addControl(drawControl);
+                map.dragging.enable();
+                map.touchZoom.enable();
+                map.doubleClickZoom.enable();
+                map.scrollWheelZoom.enable();
+                map.boxZoom.enable();
+                map.keyboard.enable();
             }
         });
 
