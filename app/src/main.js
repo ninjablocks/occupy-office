@@ -46,7 +46,7 @@ $(function() {
     $(".logo-wrapper").sticky();
 
 
-    var map = L.map('main-map');
+    var map = L.map('main-map', {markerZoomAnimation:true});
     //*
     map.dragging.disable();
     map.touchZoom.disable();
