@@ -47,7 +47,7 @@ $(function() {
 
 
     var map = L.map('main-map', {markerZoomAnimation:true});
-    /*
+    //*
     map.dragging.disable();
     map.touchZoom.disable();
     map.doubleClickZoom.disable();
@@ -264,7 +264,6 @@ $(function() {
                 map.keyboard.enable();
             }
         });
-        map.addControl(drawControl);
 
         map.on('draw:created', function (e) {
             var type = e.layerType,
