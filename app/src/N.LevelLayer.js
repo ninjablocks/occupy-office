@@ -35,9 +35,9 @@ N.LevelLayer = L.LayerGroup.extend({
 
                             console.log("Feature alarm", feature, alarm);
 
-                            if (!alarm && path) {
+                            /*if (!alarm && path) {
                                 addRemoveClass(path, 'alarmed', false);
-                            }
+                            }*/
 
                             layer.setStyle({
                                 fillColor: alarm?'#f98300':'#0073ab'
@@ -45,7 +45,7 @@ N.LevelLayer = L.LayerGroup.extend({
 
 
 
-                            if (alarm) {
+                            /*if (alarm) {
                                 setTimeout(function() {
                                     if ((age / 1000) < 300) { // If it's new, fade it slowly...
                                         addRemoveClass(path, 'alarmed', true);
@@ -53,19 +53,20 @@ N.LevelLayer = L.LayerGroup.extend({
 
                                     path.attr('fill', '#fff7d6');
                                 }, 500);
-                            }
+                            }*/
 
                             $.publish('mappu.alarm.room.'+feature.properties.room_id, feature.properties.room_id, alarm, age, timestamp);
                         });
                          console.log('** Subscribing to ', 'mappu.tamper.' + feature.properties.device);
                         $.subscribe('mappu.tamper.' + feature.properties.device, function(topic, tamper, age) {
                             console.log("Feature tamper", feature, tamper);
-                            if (tamper) {
-                                 layer.setStyle({
-                                    fillColor: '#0000FF'
-                                });
-                            }
-
+                            var path = $(layer._container).find('path');
+                            addRemoveClass(path, 'tamper', tamper);
+                        });
+                          $.subscribe('mappu.battery.' + feature.properties.device, function(topic, battery, age) {
+                            console.log("Feature low battery", feature, battery);
+                            var path = $(layer._container).find('path');
+                            addRemoveClass(path, 'lowBattery', battery);
                         });
                     }
 

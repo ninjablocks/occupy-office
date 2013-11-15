@@ -1,7 +1,5 @@
 // The NinjaBlocks Driver
 
-var server = require('./server');
-
 var util = require('util');
 var stream = require('stream');
 var child = require('child_process');
@@ -21,6 +19,8 @@ var log = log4js.getLogger('OccupyOffice - Driver');
 function Driver(opts,app) {
   var self = this;
 
+  this.server = require('./server');
+
   this._devices = {};
 
   this.store = new MeetingStore(config.DatabaseURL);
@@ -36,6 +36,7 @@ function Driver(opts,app) {
       log.debug("Got ias device", device);
       seen[guid] = true;
       self.createDevices(device);
+      self.server(device);
     }
   });
 

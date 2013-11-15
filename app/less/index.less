@@ -219,7 +219,7 @@ input {
                 display: block;
                 // padding: 3px 0 0 3em;
                 a {
-                    @colorAvailable: hsl(150,50%,40%);
+                    @colorAvailable: #0073ab;
                     display: block;
                     padding: 2px 0;
                     cursor: pointer;
@@ -232,7 +232,7 @@ input {
                     }
 
                     &.occupied {
-                        @colorOccupied: hsl(360,100%,30%);
+                        @colorOccupied: #f98300;
                         color: @colorOccupied;
 
                         &:hover, &.hover {
@@ -428,6 +428,67 @@ input {
         }
     }
 }
+
+.lowBattery {
+    animation-name: lowBattery;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    -webkit-animation-name: lowBattery;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes lowBattery {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes lowBattery {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes lowBattery {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+.tamper {
+    animation-name: tamper;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    -webkit-animation-name: tamper;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes tamper {
+    0% { opacity: 1.0; fill:red;}
+    30% { opacity: 1.0; fill:blue;}
+    100% { opacity: 1.0; fill:red;}
+}
+
+@-webkit-keyframes tamper {
+    0% { opacity: 1.0; fill:red;}
+    50% { opacity: 1.0; fill:blue;}
+    100% { opacity: 1.0; fill:red;}
+}
+
+@keyframes tamper {
+    0% { opacity: 1.0; fill:red;}
+    30% { opacity: 1.0; fill:blue;}
+    100% { opacity: 1.0; fill:red;}
+}
+
 
 
 .leaflet-container {

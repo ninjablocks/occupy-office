@@ -15,21 +15,21 @@ $(function() {
     });
 
     var socket = io.connect('/');
-    socket.on('message', function (data) {
-        console.log('socket io data', data);
-    });
+    socket.on('message', onData);
 
     var lastSeen = {};
 
     function onData(data) {
+        //console.log("DATA: ", data);
         if (data.D != 600) { // IAS Zone
             return;
         }
-        if (!data.DA.timestamp || (lastSeen[data.GUID] && lastSeen[data.GUID] < data.DA.timestamp)) {
-            console.log('data', data);
+        //console.log(data.DA.timestamp);
+        if (!data.DA.timestamp || (!lastSeen[data.G] || lastSeen[data.G] < data.DA.timestamp)) {
+            //console.log('data', data);
 
             if (data.DA.timestamp) {
-                lastSeen = data.DA.timestamp;
+                lastSeen[data.G] = data.DA.timestamp;
             }
 
             $.publish('ninja.data', data);
@@ -47,7 +47,7 @@ $(function() {
 
 
     var map = L.map('main-map', {markerZoomAnimation:true});
-    //*
+    /*
     map.dragging.disable();
     map.touchZoom.disable();
     map.doubleClickZoom.disable();
@@ -264,6 +264,7 @@ $(function() {
                 map.keyboard.enable();
             }
         });
+        map.addControl(drawControl);
 
         map.on('draw:created', function (e) {
             var type = e.layerType,

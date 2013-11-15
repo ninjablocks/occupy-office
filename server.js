@@ -23,10 +23,14 @@ console.log('Starting with config', config);
 var store = new MeetingStore(config.DatabaseURL);
 
 var app = express();
+var server  = require('http').createServer(app);
 
 var appDir = path.join(__dirname, 'app');
 var genDir = path.join(__dirname, 'gen');
 var configDir = path.join(__dirname, 'config');
+
+// Start Pusher alternative
+var io = require('socket.io').listen(server);
 
 app.configure(function(){
   app.use(express.compress());
@@ -151,7 +155,19 @@ app.get('/usage', function(req, res, next) {
 
 });
 
-app.listen(USER_PORT);
-app.listen(ADMIN_PORT);
+server.listen(USER_PORT);
+server.listen(ADMIN_PORT);
 
-module.exports = app;
+
+module.exports = function(device) {
+  device.on('data', function(da) {
+    console.log('data!', da, device);
+    io.sockets.emit('message', {
+      DA: da,
+      G: device.G,
+      D: device.D,
+      V: device.V
+    });
+  });
+
+};

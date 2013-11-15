@@ -12,7 +12,7 @@
         var target = topic;
         var args = Array.prototype.slice.call(arguments, 1);
 
-        console.info('>> Event [' +topic + ']', args);
+        //console.info('>> Event [' +topic + ']', args);
 
         var keepGoing = true;
 
@@ -109,7 +109,7 @@ function addRemoveClass(jqEl, className, addOrRemove)
 {
   var classAttr = jqEl.attr('class') || '';
   if (!addOrRemove) {
-    classAttr = classAttr.replace(new RegExp('\\s?' + className), '');
+    classAttr = classAttr.replace(new RegExp('\\s?' + className, 'g'), '');
     jqEl.attr('class', classAttr);
   } else {
     classAttr = classAttr + (classAttr.length === 0 ? '' : ' ') + className;
