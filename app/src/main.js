@@ -55,8 +55,13 @@ $(function() {
         }
     }
 
+    var roomNames = {};
+
     var popupClosing = false;
     function resetView() {
+        setTimeout(function() {
+            $('.leaflet-label-overlay').fadeIn();
+        }, 500);
 
         map.setView([0, 0], 2);
 
@@ -83,8 +88,12 @@ $(function() {
 
         _.each(rooms, function(room) {
             console.log('rooom', room);
+
+            if (!roomNames[room.feature.properties.room_id]) {
+                 roomNames[room.feature.properties.room_id] = room.feature.properties.name;
+            }
             // /<li><a class="occupied">Boardroom 1</a></li>
-            var li = $('<li class="' + room.feature.properties.room_id + '"><a>' + (room.feature.properties.name||'[device:'+room.feature.properties.room_id+']') + '</a></li>');
+            var li = $('<li class="' + room.feature.properties.room_id + '"><a>' + roomNames[room.feature.properties.room_id] + '</a></li>');
             li.click(function() {
                 $.publish('room.click', room);
             });
@@ -111,13 +120,15 @@ $(function() {
     $.subscribe('room.click', function(topic, layer) {
         console.log('room click', layer);
 
+        $('.leaflet-label-overlay').hide();
+
         var popup = L.popup({minWidth: 290, minHeight:200, autoPan: false, zoomAnimation: false})
             .setLatLng(layer.getBounds().getCenter())
             .setContent($('.statsTemplate').html());
 
         map.openPopup(popup);
 
-        var name = layer.feature.properties.name || ('[Device:' + layer.feature.properties.room_id + ']');
+        var name = roomNames[layer.feature.properties.room_id];
 
         $(popup._contentNode).data('zones', [layer.feature.properties.room_id]).addClass('stats').find('h3').text(name);
 
@@ -129,7 +140,7 @@ $(function() {
 
         $('.sidebar .rooms .hover').removeClass('hover');
         $('.sidebar .rooms .' + layer.feature.properties.room_id + ' a').addClass('hover');
-        $(".current-floor").html(name);
+        $(".current-floor").text(name);
     });
 
     map.on('click', function(e) {

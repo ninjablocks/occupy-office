@@ -49,37 +49,22 @@ N.LevelLayer = L.LayerGroup.extend({
                         });
                     }
 
+                    var label = new L.LabelOverlay(layer.getBounds().getSouthWest(),  feature.properties.name);
+                    self.addLayer(label);
+
                     layer.on({
 
                         click: function (e) {
                             if (feature.geometry.type != 'Point') {
                                 $.publish('room.click', layer);
                             }
-                            console.log('click', e);
-                            /*var bounds = layer.getBounds();
-                            self.setLatLng(bounds.getCenter());*/
-                            /*popup.setContent(popupContent);
-                            map.openPopup(popup);*/
                         },
 
-                        /*mouseover: function(e) {
-                            var layer = e.target;
-
-                            layer.setStyle({
-                                weight: 5,
-                                color: '#666',
-                                dashArray: '',
-                                fillOpacity: 0.7
-                            });
-
-                            if (!L.Browser.ie && !L.Browser.opera) {
-                                //layer.bringToFront();
-                            }
+                        mouseover: function(e) {
                         },
 
                         mouseout: function(e) {
-                            self._overlay.resetStyle(e.target);
-                        }*/
+                        }
 
                     });
                 },
@@ -107,8 +92,6 @@ N.LevelLayer = L.LayerGroup.extend({
 
             var idx = 0;
             this._overlay.on("featureparse", function (e){
-
-                console.log("Hello", e);
 
                 (function(layer, properties) {
 
