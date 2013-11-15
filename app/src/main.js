@@ -146,6 +146,8 @@ $(function() {
 
         var last = moment(lastSeen[layer.feature.properties.room_id]);
 
+        $(popup._contentNode).find('.lastData').text(last.fromNow());
+
         var name = roomNames[layer.feature.properties.room_id];
 
         $(popup._contentNode).data('zones', [layer.feature.properties.room_id]).addClass('stats').find('h3').text(name);
