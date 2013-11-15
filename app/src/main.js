@@ -11,15 +11,30 @@ $(function() {
           console.log('heartbeat', data);
           $.publish('ninja.heartbeat', data);
         });
-        channel.bind('data', function(data) {
-          console.log('data', data);
-          if (data.D != 600) { // IAS Zone
-             return;
-          }
-          $.publish('ninja.data', data);
-        });
-
+        channel.bind('data', onData);
     });
+
+    var socket = io.connect('/');
+    socket.on('message', function (data) {
+        console.log('socket io data', data);
+    });
+
+    var lastSeen = {};
+
+    function onData(data) {
+        if (data.D != 600) { // IAS Zone
+            return;
+        }
+        if (!data.DA.timestamp || (lastSeen[data.GUID] && lastSeen[data.GUID] < data.DA.timestamp)) {
+            console.log('data', data);
+
+            if (data.DA.timestamp) {
+                lastSeen = data.DA.timestamp;
+            }
+
+            $.publish('ninja.data', data);
+        }
+    }
 
 });
 
@@ -42,9 +57,11 @@ $(function() {
     //*/
 
     var lastOccupiedStates = {};
-    $.subscribe('mappu.alarm.room', function(topic, roomId, alarm) {
+    var lastSeen = {};
+    $.subscribe('mappu.alarm.room', function(topic, roomId, alarm, age, timestamp) {
         $('.rooms .' + roomId + ' a').toggleClass('occupied', alarm);
         lastOccupiedStates[roomId] = alarm;
+        lastSeen[roomId] = timestamp;
     });
 
     function resetViewOnLoad() {
@@ -114,7 +131,6 @@ $(function() {
 
 
 
-
     var zoomed = false;
 
     $.subscribe('room.click', function(topic, layer) {
@@ -124,9 +140,11 @@ $(function() {
 
         var popup = L.popup({minWidth: 290, minHeight:200, autoPan: false, zoomAnimation: false})
             .setLatLng(layer.getBounds().getCenter())
-            .setContent($('.statsTemplate').html());
+            .setContent($('.popupTemplate').html());//$('.statsTemplate').html());
 
         map.openPopup(popup);
+
+        var last = moment(lastSeen[layer.feature.properties.room_id]);
 
         var name = roomNames[layer.feature.properties.room_id];
 

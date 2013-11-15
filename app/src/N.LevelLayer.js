@@ -30,15 +30,35 @@ N.LevelLayer = L.LayerGroup.extend({
                 onEachFeature: function (feature, layer) {
 
                     if (feature.properties.device) {
-                         $.subscribe('mappu.alarm.' + feature.properties.device, function(topic, alarm) {
+                         $.subscribe('mappu.alarm.' + feature.properties.device, function(topic, alarm, age, timestamp) {
+                            var path = $(layer._container).find('path');
+
                             console.log("Feature alarm", feature, alarm);
+
+                            if (!alarm && path) {
+                                addRemoveClass(path, 'alarmed', false);
+                            }
+
                             layer.setStyle({
-                                fillColor: alarm?'#FF0000':'#00FF00'
+                                fillColor: alarm?'#f98300':'#0073ab'
                             });
-                            $.publish('mappu.alarm.room.'+feature.properties.room_id, feature.properties.room_id, alarm);
+
+
+
+                            if (alarm) {
+                                setTimeout(function() {
+                                    if ((age / 1000) < 300) { // If it's new, fade it slowly...
+                                        addRemoveClass(path, 'alarmed', true);
+                                    }
+
+                                    path.attr('fill', '#fff7d6');
+                                }, 500);
+                            }
+
+                            $.publish('mappu.alarm.room.'+feature.properties.room_id, feature.properties.room_id, alarm, age, timestamp);
                         });
                          console.log('** Subscribing to ', 'mappu.tamper.' + feature.properties.device);
-                        $.subscribe('mappu.tamper.' + feature.properties.device, function(topic, tamper) {
+                        $.subscribe('mappu.tamper.' + feature.properties.device, function(topic, tamper, age) {
                             console.log("Feature tamper", feature, tamper);
                             if (tamper) {
                                  layer.setStyle({

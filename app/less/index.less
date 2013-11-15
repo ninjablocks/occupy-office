@@ -311,6 +311,10 @@ input {
 }
 
 
+.alarmed {
+    border: 5px solid red;
+}
+
 
 
 .content {
@@ -401,6 +405,7 @@ input {
     }
 }
 
+
 .total {
     font-weight: bold;
     color: desaturate(lighten(@controlBackgroundColor, 40%), 50%);
@@ -442,6 +447,25 @@ input {
         .leaflet-clickable {
 
         }
+
+        .alarmed {
+            -moz-transition: all 300s;
+            -webkit-transition: all 300s;
+            -ms-transition: all 300s;
+            transition: all 300s;
+        }
+    }
+
+    .lastDataWrapper {
+        text-transform: uppercase;
+        color: #ccc;
+        font-size: 0.9em;
+        margin: 0px 0px 0.75em;
+        text-align: center;
+
+        .lastData {
+            color: #555
+        }
     }
 
     .leaflet-popup-pane {
@@ -465,6 +489,10 @@ input {
 
                 &:last-child {
                     margin-right: 0px;
+                }
+
+                &.full {
+                    width: auto;
                 }
 
                 h4 {

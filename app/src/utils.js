@@ -104,3 +104,15 @@ L.LabelOverlay = L.Class.extend({
         $(this._container).show();
     }
 });
+
+function addRemoveClass(jqEl, className, addOrRemove)
+{
+  var classAttr = jqEl.attr('class') || '';
+  if (!addOrRemove) {
+    classAttr = classAttr.replace(new RegExp('\\s?' + className), '');
+    jqEl.attr('class', classAttr);
+  } else {
+    classAttr = classAttr + (classAttr.length === 0 ? '' : ' ') + className;
+    jqEl.attr('class', classAttr);
+  }
+}
