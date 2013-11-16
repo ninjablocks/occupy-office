@@ -19,28 +19,40 @@ $(function() {
 
     var lastSeen = {};
 
+    function fetchLastData() {
+        $.getJSON('/lastData', function(lastData) {
+            _.each(lastData, function(data, id) {
+                if (data.DA.timestamp) {
+                    data.D = 600;
+                    data.G = id;
+                    onData(data);
+                }
+            });
+        });
+    }
+
+
+    fetchLastData();
+
+    setInterval(fetchLastData, 60000);
+
+
     function onData(data) {
-        //console.log("DATA: ", data);
+        console.log("DATA: ", data);
         if (data.D != 600) { // IAS Zone
             return;
         }
-        //console.log(data.DA.timestamp);
-        if (!data.DA.timestamp || (!lastSeen[data.G] || lastSeen[data.G] < data.DA.timestamp)) {
-            //console.log('data', data);
+        console.log(data.DA.timestamp);
+        if (!lastSeen[data.G] || lastSeen[data.G] < data.DA.timestamp) {
+            lastSeen[data.G] = data.DA.timestamp;
 
-            if (data.DA.timestamp) {
-                lastSeen[data.G] = data.DA.timestamp;
-            }
+            console.log('last seen', lastSeen);
 
             $.publish('ninja.data', data);
+        } else {
+            console.error('old/stale/bad data?', data);
         }
     }
-
-});
-
-
-$(function() {
-
 
     // JM: Set logo to sticky
     $(".logo-wrapper").sticky();
@@ -57,11 +69,9 @@ $(function() {
     //*/
 
     var lastOccupiedStates = {};
-    var lastSeen = {};
     $.subscribe('mappu.alarm.room', function(topic, roomId, alarm, age, timestamp) {
         $('.rooms .' + roomId + ' a').toggleClass('occupied', alarm);
         lastOccupiedStates[roomId] = alarm;
-        lastSeen[roomId] = timestamp;
     });
 
     function resetViewOnLoad() {
@@ -129,8 +139,6 @@ $(function() {
 
     }
 
-
-
     var zoomed = false;
 
     $.subscribe('room.click', function(topic, layer) {
@@ -142,11 +150,21 @@ $(function() {
             .setLatLng(layer.getBounds().getCenter())
             .setContent($('.popupTemplate').html());//$('.statsTemplate').html());
 
+        console.log('popup template', $('.popupTemplate').html());
+
         map.openPopup(popup);
 
-        var last = moment(lastSeen[layer.feature.properties.room_id]);
+        var lastTime = lastSeen[layer.feature.properties.device];
+        console.log('last Time',lastSeen, lastTime, layer.feature.properties.room_id, layer.feature.properties);
 
-        $(popup._contentNode).find('.lastData').text(last.fromNow());
+        if (lastTime) {
+            var last = moment(lastTime);
+
+            $(popup._contentNode).find('.lastData').text(last.fromNow(true));
+        }
+
+        console.log('last occupied', lastOccupiedStates, lastOccupiedStates[layer.feature.properties.room_id], $(popup._contentNode).find('.un'));
+        $(popup._contentNode).find('.un').toggle(!lastOccupiedStates[layer.feature.properties.room_id]);
 
         var name = roomNames[layer.feature.properties.room_id];
 
@@ -310,23 +328,9 @@ $(function() {
         map.setView([0, 0], 2);
 
 
-        fetchLastData();
-
-        setInterval(fetchLastData, 60000);
-
     }
 
 
 });
 
 
-function fetchLastData() {
-    $.getJSON('/lastData', function(lastData) {
-        _.each(lastData, function(data, id) {
-            $.publish('ninja.data', {
-                    DA: data.DA,
-                    G: id
-            });
-        });
-    });
-}
